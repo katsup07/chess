@@ -7,6 +7,12 @@ Complete chess web app built with **HTML, CSS, and vanilla JavaScript**. Feature
 - Human vs Human, Human vs Computer, Computer vs Computer (alpha-beta AI with difficulty tiers + thinking indicator).
 - Responsive UI with move highlights, theme panel, and accessibility touches.
 
+## Startup instructions
+
+1. Clone or download the repo and open `index.html` in any modern browser (no build step required).
+2. Tap/click the board to select a piece and see legal moves highlighted; captures use the red fill while plain moves get a muted green outline.
+3. Use the top controls to start a new game, undo/redo, or access settings.
+
 ## Usage
 
 1. Open `index.html` in any modern browser.
