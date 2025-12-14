@@ -1,5 +1,5 @@
 # Chess (frontend-only)
-
+<img width="3841" height="1830" alt="Chess-12-14-2025_06_47_PM" src="https://github.com/user-attachments/assets/d90abe17-871d-4537-987b-2c768a0158a6" />
 Complete chess web app built with **HTML, CSS, and vanilla JavaScript**. Features:
 
 - Full rules engine with legal move checking (pins, castles, en passant, promotion, repetition, 50-move).
