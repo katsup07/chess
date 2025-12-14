@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chess</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="topbar" role="banner">
+      <div class="topbar__left">
+        <h1 class="title">Chess</h1>
+        <div class="statusline" id="statusLine" aria-live="polite"></div>
+      </div>
+      <div class="topbar__right">
+        <button class="btn" id="newGameBtn" type="button">New game</button>
+        <button class="btn" id="undoBtn" type="button" title="Undo" aria-label="Undo">
+          Undo
+        </button>
+        <button class="btn" id="redoBtn" type="button" title="Redo" aria-label="Redo">
+          Redo
+        </button>
+        <button class="btn btn--primary" id="settingsBtn" type="button">Settings</button>
+      </div>
+    </header>
+
+    <main class="layout" role="main">
+      <section class="boardPane" aria-label="Chessboard">
+        <div class="boardWrap">
+          <div id="board" class="board" role="grid" aria-label="Chessboard"></div>
+          <div class="moveBadge" id="moveBadge" role="button" aria-label="Move options">
+            Move options
+          </div>
+        </div>
+        <div class="boardActions">
+          <button class="btn" id="flipBtn" type="button">Flip</button>
+          <button class="btn" id="copyFenBtn" type="button">Copy FEN</button>
+          <button class="btn" id="copyPgnBtn" type="button">Copy PGN</button>
+          <button class="btn" id="loadFenBtn" type="button">Load FEN</button>
+        </div>
+        <div class="hint" id="hintLine" aria-live="polite"></div>
+      </section>
+
+      <aside class="sidePane" aria-label="Game panel">
+        <section class="panel">
+          <h2 class="panel__title">Mode</h2>
+          <div class="formRow">
+            <label for="modeSelect">Game mode</label>
+            <select id="modeSelect" aria-label="Game mode">
+              <option value="hvh">Human vs Human</option>
+              <option value="hvc">Human vs Computer</option>
+              <option value="cvc">Computer vs Computer</option>
+            </select>
+          </div>
+          <div class="formRow">
+            <label for="humanSideSelect">Human plays</label>
+            <select id="humanSideSelect" aria-label="Human plays">
+              <option value="w">White</option>
+              <option value="b">Black</option>
+            </select>
+          </div>
+          <div class="formRow">
+            <label for="difficultySelect">Difficulty</label>
+            <select id="difficultySelect" aria-label="Difficulty">
+              <option value="easy">Easy</option>
+              <option value="medium" selected>Medium</option>
+              <option value="hard">Hard</option>
+            </select>
+          </div>
+          <div class="thinking" id="thinkingIndicator" hidden aria-live="polite">
+            Computer is thinking…
+          </div>
+        </section>
+
+        <section class="panel">
+          <h2 class="panel__title">Moves</h2>
+          <ol class="movelist" id="moveList" aria-label="Move list"></ol>
+        </section>
+      </aside>
+    </main>
+
+    <dialog id="settingsDialog" class="dialog" aria-label="Settings">
+      <form method="dialog" class="dialog__body">
+        <div class="dialog__header">
+          <h2 class="dialog__title">Settings</h2>
+          <button class="iconBtn" value="cancel" aria-label="Close settings" type="submit">
+            ✕
+          </button>
+        </div>
+
+        <section class="dialog__section" aria-label="Theme panel">
+          <div class="formGrid">
+            <div class="formRow">
+              <label for="themeSelect">Board theme</label>
+              <select id="themeSelect">
+                <option value="classic">Classic</option>
+                <option value="walnut">Walnut</option>
+                <option value="slate">Slate</option>
+                <option value="ocean">Ocean</option>
+                <option value="contrast">High Contrast</option>
+                <option value="minimal">Minimal</option>
+              </select>
+            </div>
+            <div class="formRow">
+              <label for="textureSelect">Square texture</label>
+              <select id="textureSelect">
+                <option value="flat">Flat</option>
+                <option value="noise">Subtle noise</option>
+                <option value="wood">Wood</option>
+              </select>
+            </div>
+            <div class="formRow">
+              <label for="pieceSetSelect">Piece set</label>
+              <select id="pieceSetSelect">
+                <option value="classic">Classic</option>
+                <option value="minimal">Minimal</option>
+                <option value="outline">Outline</option>
+              </select>
+            </div>
+            <div class="formRow">
+              <label for="highlightSelect">Highlight style</label>
+              <select id="highlightSelect">
+                <option value="subtle">Subtle</option>
+                <option value="strong">Strong</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="toggleRow">
+            <label class="toggle">
+              <input id="coordsToggle" type="checkbox" />
+              <span>Show coordinates</span>
+            </label>
+            <label class="toggle">
+              <input id="flipToggle" type="checkbox" />
+              <span>Flip board</span>
+            </label>
+          </div>
+        </section>
+
+        <div class="dialog__footer">
+          <button class="btn btn--primary" value="ok" type="submit">Done</button>
+        </div>
+      </form>
+    </dialog>
+
+    <dialog id="promotionDialog" class="dialog" aria-label="Choose promotion">
+      <form method="dialog" class="dialog__body">
+        <div class="dialog__header">
+          <h2 class="dialog__title">Promote pawn to…</h2>
+        </div>
+        <div class="promoGrid" id="promotionChoices" role="group" aria-label="Promotion choices"></div>
+        <div class="dialog__footer">
+          <button class="btn" value="cancel" type="submit">Cancel</button>
+        </div>
+      </form>
+    </dialog>
+
+    <dialog id="fenDialog" class="dialog" aria-label="Load FEN">
+      <form method="dialog" class="dialog__body">
+        <div class="dialog__header">
+          <h2 class="dialog__title">Load FEN</h2>
+          <button class="iconBtn" value="cancel" aria-label="Close" type="submit">✕</button>
+        </div>
+        <div class="formRow">
+          <label for="fenInput">FEN</label>
+          <textarea id="fenInput" rows="3" spellcheck="false"></textarea>
+        </div>
+        <div class="dialog__footer">
+          <button class="btn" value="cancel" type="submit">Cancel</button>
+          <button class="btn btn--primary" id="fenApplyBtn" value="apply" type="submit">Load</button>
+        </div>
+      </form>
+    </dialog>
+
+    <script src="app.js"></script>
+  </body>
+</html>
